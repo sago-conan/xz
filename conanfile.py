@@ -15,7 +15,6 @@ class XzConan(ConanFile):
     settings = "os", "compiler", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {"shared": False, "fPIC": True}
-    no_copy_source = True
 
     def config_options(self):
         if self.settings.os == "Windows":
