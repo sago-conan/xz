@@ -46,8 +46,8 @@ class XzConan(ConanFile):
                 args.extend(["--disable-static", "--enable-shared"])
             else:
                 args.extend(["--enable-static", "--disable-shared"])
-            if self.settings.build_type == "Debug":
-                args.append("--enable-debug")
+            # if self.settings.build_type == "Debug":
+            #     args.append("--enable-debug")
             build.configure(args=args)
             build.make()
             build.install()
