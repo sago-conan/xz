@@ -37,8 +37,9 @@ class XzConan(ConanFile):
         with tools.chdir(self._xz_folder):
             build = AutoToolsBuildEnvironment(self)
             args = [
-                "--disable-lzmadec", "--disable-lzmainfo",
-                "--disable-lzma-links", "--disable-scripts", "--disable-doc"
+                "--disable-xz", "--disable-xzdec", "--disable-lzmadec",
+                "--disable-lzmainfo", "--disable-lzma-links",
+                "--disable-scripts", "--disable-doc"
             ]
             if "fPIC" in self.options and self.options.fPIC:
                 args.append("--with-pic")
