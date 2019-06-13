@@ -8,6 +8,20 @@ env:
 
 matrix:
   include:
+    - language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+      before_install:
+        - echo y | sdkmanager "ndk-bundle"
+        - virtualenv venv
+        - source venv/bin/activate
+        - export CONAN_BASE_PROFILE="$(pwd)/profile/Android.profile"
+      env:
+        - CONAN_ARCHS="armv7"
+        - CONAN_CLANG_VERSIONS="7.0"
+
     - os: osx
       osx_image: xcode10
       language: generic
