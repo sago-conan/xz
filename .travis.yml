@@ -15,7 +15,7 @@ matrix:
           - platform-tools
       before_install:
         - echo y | sdkmanager "ndk-bundle"
-        - virtualenv venv
+        - virtualenv -p python3 venv
         - source venv/bin/activate
         - export CONAN_BASE_PROFILE="$(pwd)/profile/Android.profile"
       env:
