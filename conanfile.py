@@ -76,7 +76,35 @@ class XzConan(ConanFile):
                     args.extend(["--enable-static", "--disable-shared"])
                 # if self.settings.build_type == "Debug":
                 #     args.append("--enable-debug")
-                build.configure(args=args)
+                host = None
+                vars = None
+                if self.settings.os == "Android":
+                    toolchain = os.path.join(
+                        os.environ["ANDROID_HOME"], "ndk-bundle", "toolchains",
+                        "llvm", "prebuilt", "linux-x86_64", "bin")
+                    if self.settings.arch == "armv7":
+                        host = "armv7a-linux-androideabi"
+                    vars = {
+                        "AR":
+                        os.path.join(toolchain, host + "-ar"),
+                        "AS":
+                        os.path.join(toolchain, host + "-as"),
+                        "CC":
+                        os.path.join(
+                            toolchain, "{}{}-clang".format(
+                                host, self.settings.os.api_level)),
+                        "CXX":
+                        os.path.join(
+                            toolchain, "{}{}-clang++".format(
+                                host, self.settings.os.api_level)),
+                        "LD":
+                        os.path.join(toolchain, host + "-ld"),
+                        "RANLIB":
+                        os.path.join(toolchain, host + "-ranlib"),
+                        "STRIP":
+                        os.path.join(toolchain, host + "-strip"),
+                    }
+                build.configure(args=args, host=host, vars=vars)
                 build.make()
                 build.install()
 
