@@ -84,11 +84,12 @@ class XzConan(ConanFile):
                         "llvm", "prebuilt", "linux-x86_64", "bin")
                     if self.settings.arch == "armv7":
                         host = "armv7a-linux-androideabi"
+                        cmd_prefix = "arm-linux-androideabi"
                     vars = {
                         "AR":
-                        os.path.join(toolchain, host + "-ar"),
+                        os.path.join(toolchain, cmd_prefix + "-ar"),
                         "AS":
-                        os.path.join(toolchain, host + "-as"),
+                        os.path.join(toolchain, cmd_prefix + "-as"),
                         "CC":
                         os.path.join(
                             toolchain, "{}{}-clang".format(
@@ -98,11 +99,11 @@ class XzConan(ConanFile):
                             toolchain, "{}{}-clang++".format(
                                 host, self.settings.os.api_level)),
                         "LD":
-                        os.path.join(toolchain, host + "-ld"),
+                        os.path.join(toolchain, cmd_prefix + "-ld"),
                         "RANLIB":
-                        os.path.join(toolchain, host + "-ranlib"),
+                        os.path.join(toolchain, cmd_prefix + "-ranlib"),
                         "STRIP":
-                        os.path.join(toolchain, host + "-strip"),
+                        os.path.join(toolchain, cmd_prefix + "-strip"),
                     }
                 build.configure(args=args, host=host, vars=vars)
                 build.make()
