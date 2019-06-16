@@ -50,6 +50,16 @@ class XzConan(ConanFile):
     def source(self):
         url = "https://tukaani.org/xz/{}.tar.xz".format(self._xz_folder_name)
         tools.get(url)
+        # don't specify Windows SDK version
+        vs_folder = os.path.join(self._xz_folder, "windows", "vs2017")
+        tools.replace_in_file(
+            os.path.join(vs_folder, "liblzma.vcxproj"),
+            "<WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>",
+            "")
+        tools.replace_in_file(
+            os.path.join(vs_folder, "liblzma_dll.vcxproj"),
+            "<WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>",
+            "")
 
     def build(self):
         if self.settings.compiler == "Visual Studio":
