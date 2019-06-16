@@ -105,6 +105,17 @@ class XzConan(ConanFile):
                         "STRIP":
                         os.path.join(toolchain, cmd_prefix + "-strip"),
                     }
+                elif self.settings.os == "iOS":
+                    iphoneos = tools.XCRun(self.settings, sdk="iphoneos")
+                    flags = "-arch armv7 -arch armv7s -arch arm64 -isysroot " + iphoneos.sdk_path
+                    vars = {
+                        "AR": iphoneos.ar,
+                        "CC": iphoneos.cc,
+                        "CXX": iphoneos.cxx,
+                        "LD": iphoneos.find("ld"),
+                        "CFLAGS": flags,
+                        "CXXFLAGS": flags,
+                    }
                 build.configure(args=args, host=host, vars=vars)
                 build.make()
                 build.install()

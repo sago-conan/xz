@@ -25,6 +25,15 @@ matrix:
     - os: osx
       osx_image: xcode10
       language: generic
+      before_install:
+        - export CONAN_BASE_PROFILE="$(pwd)/profile/iOS.profile"
+      env:
+        - CONAN_ARCHS="armv7"
+        - CONAN_APPLE_CLANG_VERSIONS="10.0"
+
+    - os: osx
+      osx_image: xcode10
+      language: generic
       env:
         - CONAN_ARCHS="x86_64"
         - CONAN_APPLE_CLANG_VERSIONS="10.0"
