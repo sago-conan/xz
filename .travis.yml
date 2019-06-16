@@ -1,0 +1,47 @@
+env:
+  global:
+    - CONAN_USERNAME="sago"
+    - CONAN_CHANNEL="testing"
+    - CONAN_UPLOAD="https://api.bintray.com/conan/suwei-air/sago-conan"
+    - CONAN_STABLE_BRANCH_PATTERN="master"
+    - CONAN_BUILD_TYPES="Release"
+
+matrix:
+  include:
+    - language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+      before_install:
+        - echo y | sdkmanager "ndk-bundle"
+        - virtualenv -p python3 venv
+        - source venv/bin/activate
+        - export CONAN_BASE_PROFILE="$(pwd)/profile/Android.profile"
+      env:
+        - CONAN_ARCHS="armv7"
+        - CONAN_CLANG_VERSIONS="7.0"
+
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      before_install:
+        - export CONAN_BASE_PROFILE="$(pwd)/profile/iOS.profile"
+      env:
+        - CONAN_ARCHS="armv7"
+        - CONAN_APPLE_CLANG_VERSIONS="10.0"
+
+    - os: osx
+      osx_image: xcode10
+      language: generic
+      env:
+        - CONAN_ARCHS="x86_64"
+        - CONAN_APPLE_CLANG_VERSIONS="10.0"
+
+install:
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
+
+script:
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh

@@ -1,0 +1,28 @@
+build: false
+
+environment:
+  PYTHON: "C:\\Python37"
+
+  CONAN_USERNAME: "sago"
+  CONAN_CHANNEL: "testing"
+  CONAN_UPLOAD: "https://api.bintray.com/conan/suwei-air/sago-conan"
+  CONAN_STABLE_BRANCH_PATTERN: "master"
+  CONAN_ARCHS: "x86"
+  CONAN_BUILD_TYPES: "Release"
+
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CONAN_VISUAL_VERSIONS: 14
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CONAN_VISUAL_VERSIONS: 15
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      CONAN_VISUAL_VERSIONS: 16
+
+install:
+  - git submodule update --init --recursive
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - "%PYTHON%\\python.exe -m pip install conan conan-package-tools --upgrade"
+  - conan user
+
+test_script:
+  - "%PYTHON%\\python.exe build.py"
